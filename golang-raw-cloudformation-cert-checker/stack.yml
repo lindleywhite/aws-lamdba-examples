@@ -1,0 +1,22 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Parameters:
+  BucketName:
+      Type: String
+  DomainsToCheck:
+      Type: String
+
+Resources:
+  CertCheckFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: cert_check
+      Timeout: 300
+      Handler: cert_check
+      Runtime: go1.x
+      CodeUri: build/cert_check.zip
+      Policies: AWSLambdaFullAccess
+      Environment:
+        Variables:
+          DOMAINS: !Ref DomainsToCheck
